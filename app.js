@@ -70,7 +70,6 @@ subMenuEl.style.top = '0'
 
 // Task 5
 let topMenuLinks = topMenuEl.children
-//console.log(topMenuLinks)
 
 let showingSubMenu = false
 
@@ -80,27 +79,45 @@ topMenuEl.addEventListener('click', function (event) {
 	//tagName is uppercase!
 	if (event.target.tagName === 'A') {
 		console.log(event.target.innerText.toLowerCase())
-	}
+    } else {
+        return
+    }
 
 	if (event.target.classList.contains('active')) {
 		event.target.classList.remove('active')
 		showingSubMenu = false
 		subMenuEl.style.top = '0'
 		return
-	}
+    }
+    
+    // 5.4
     for (const key in topMenuLinks) {
         if (topMenuLinks.hasOwnProperty(key)){
             topMenuLinks[key].classList.remove('active')
-            topMenuLinks[key].classList.add('testing')
-            console.log(topMenuLinks[key])
-            
         }
-	}
+    }
+    /*
+    - The for...in loop iterates through properties in the prototype chain. This means that we need to check if the property belongs to the object using hasOwnProperty whenever we loop through an object with the for…in loop.
+    - 
+    */
+    
+    // 5.5
+    if (event.target.tagName === 'A') {
+        event.target.classList.add('active')
+    }
+
+    menuLinks.forEach(function (el) {
+
+        // if (el.hasOwnProperty('subLinks')) {
+        //     if (el.text === link) {
+        //         showingSubMenu = true
+        //     } else {
+        //         showingSubMenu = false
+        //     }
+    
+        // }
+    })
+    //console.log(showingSubMenu)
 })
 
 
-
-/*
-- The for...in loop iterates through properties in the prototype chain. This means that we need to check if the property belongs to the object using hasOwnProperty whenever we loop through an object with the for…in loop.
-- 
-*/
