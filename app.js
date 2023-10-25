@@ -88,9 +88,19 @@ topMenuEl.addEventListener('click', function (event) {
 		subMenuEl.style.top = '0'
 		return
 	}
-	for (const key in topMenuLinks) {
-		topMenuLinks[key].classList.remove('active')
-		topMenuLinks[key].classList.add('testing')
-		console.log(topMenuLinks[key])
+    for (const key in topMenuLinks) {
+        if (topMenuLinks.hasOwnProperty(key)){
+            topMenuLinks[key].classList.remove('active')
+            topMenuLinks[key].classList.add('testing')
+            console.log(topMenuLinks[key])
+            
+        }
 	}
 })
+
+
+
+/*
+- The for...in loop iterates through properties in the prototype chain. This means that we need to check if the property belongs to the object using hasOwnProperty whenever we loop through an object with the for…in loop.
+- 
+*/
