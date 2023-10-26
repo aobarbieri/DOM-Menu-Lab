@@ -79,45 +79,93 @@ topMenuEl.addEventListener('click', function (event) {
 	//tagName is uppercase!
 	if (event.target.tagName === 'A') {
 		console.log(event.target.innerText.toLowerCase())
-    } else {
-        return
-    }
+	} else {
+		return
+	}
 
 	if (event.target.classList.contains('active')) {
 		event.target.classList.remove('active')
 		showingSubMenu = false
 		subMenuEl.style.top = '0'
 		return
-    }
+	}
     
-    // 5.4
-    for (const key in topMenuLinks) {
-        if (topMenuLinks.hasOwnProperty(key)){
-            topMenuLinks[key].classList.remove('active')
-        }
-    }
-    /*
-    - The for...in loop iterates through properties in the prototype chain. This means that we need to check if the property belongs to the object using hasOwnProperty whenever we loop through an object with the for…in loop.
-    - 
-    */
+	// 5.4
+	for (const key in topMenuLinks) {
+		if (topMenuLinks.hasOwnProperty(key)) {
+			topMenuLinks[key].classList.remove('active')
+		}
+	}
+	/*
+	- The for...in loop iterates through properties in the prototype chain. This means that we need to check if the property belongs to the object using hasOwnProperty whenever we loop through an object with the for…in loop.
+	- 
+	*/
     
-    // 5.5
-    if (event.target.tagName === 'A') {
-        event.target.classList.add('active')
-    }
+	// 5.5
+	if (event.target.tagName === 'A') {
+		event.target.classList.add('active')
+	}
 
-    menuLinks.forEach(function (el) {
+	// 5.6
+	// update variable IF link object?? - [ {}, {}]
+	// Something to compare the content of the link > one of the objects in menuLinks -> Find()
 
-        // if (el.hasOwnProperty('subLinks')) {
-        //     if (el.text === link) {
-        //         showingSubMenu = true
-        //     } else {
-        //         showingSubMenu = false
-        //     }
-    
-        // }
-    })
-    //console.log(showingSubMenu)
+	let currentLink = menuLinks.find(function (linkObj) {
+		// console.log(linkObj)
+		// console.log(event.target.textContent)
+		return linkObj.text === event.target.textContent
+	})
+	console.log(currentLink)
+
+	if (currentLink.subLinks) {
+		showingSubMenu = true
+	} else {
+		showingSubMenu = false
+	}
+
+	// 5.7
+	if(showingSubMenu){
+		buildSubMenu(currentLink.subLinks)
+		subMenuEl.style.top = '100%'
+	} else {
+		subMenuEl.style.top = "0"
+		mainEl.innerHTML = '<h1>About</h1>'
+	}
+
+
+	function buildSubMenu(linksArr) {
+		console.log(linksArr)
+		subMenuEl.innerHTML = ""
+		for (let linkObj of linksArr) {
+			const newLink = document.createElement('a')
+			newLink.setAttribute('href', linkObj.href)
+			newLink.textContent = linkObj.text
+			subMenuEl.appendChild(newLink)
+		}
+	}
+
 })
 
+// 6.0
+subMenuEl.addEventListener('click', function (event) {
+	event.preventDefault()
 
+	let currentTarget = event.target
+	if (currentTarget.tagName !== 'A') {
+		return
+	}
+	console.log(currentTarget.textContent)
+
+	// 6.1
+	showingSubMenu = false
+	subMenuEl.style.top = '0'
+
+	topMenuLinks.forEach(function(linkEl) {
+		linkEl.classList.remove('active')
+	})
+
+	let pageName = currentTarget.textContent
+	let pageContent = pageName[0].toUpperCase()+pageName.slice(1)
+
+	mainEl.innerHTML = `<h1>${currentTarget.textContent}</h1>`
+})
