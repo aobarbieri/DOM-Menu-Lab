@@ -107,8 +107,6 @@ topMenuEl.addEventListener('click', function (event) {
 	}
 
 	// 5.6
-	// update variable IF link object?? - [ {}, {}]
-	// Something to compare the content of the link > one of the objects in menuLinks -> Find()
 
 	let currentLink = menuLinks.find(function (linkObj) {
 		// console.log(linkObj)
@@ -160,12 +158,15 @@ subMenuEl.addEventListener('click', function (event) {
 	showingSubMenu = false
 	subMenuEl.style.top = '0'
 
-	topMenuLinks.forEach(function(linkEl) {
-		linkEl.classList.remove('active')
-	})
+	for (const key in topMenuLinks) {
+		if (topMenuLinks.hasOwnProperty(key)) {
+			topMenuLinks[key].classList.remove('active')
+		}
+	}
 
 	let pageName = currentTarget.textContent
-	let pageContent = pageName[0].toUpperCase()+pageName.slice(1)
-
+	let pageContent = pageName[0].toUpperCase() + pageName.slice(1)
+	
+	// 6.3
 	mainEl.innerHTML = `<h1>${currentTarget.textContent}</h1>`
 })
